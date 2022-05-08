@@ -28,9 +28,9 @@ int main()
                 above_average++;
             }
         }
-        float output = (above_average / people_in_class)*100;
+        float output = (above_average / people_in_class)*100; // Times 100 to move the decimal two points. In order to output it as percentage.
         
-        cout << setprecision(3) << output << "%\n";
+        cout << fixed << setprecision(3) << output << "%\n"; //Fixed need to be used in order to show 40.000% instead of just 40%
         
     }
     return 0;
