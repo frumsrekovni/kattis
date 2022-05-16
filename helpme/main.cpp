@@ -39,14 +39,20 @@ int main(){
                             curr_row = abs(u - 8);
                             //cout << read_char << columns[i] << curr_row << endl;
                             string chesspiece = "";
-                            
-                            chesspiece = chesspiece + read_char + columns[i] + char(curr_row);
-                            
+                            if(read_char == 'P'){
+                                //chesspiece = chesspiece + columns[i] + static_cast<char>('0'+curr_row);
+                                chesspiece += columns[i];
+                                chesspiece += static_cast<char>('0'+curr_row);
+                            }
+                            else{
+                                chesspiece = chesspiece + read_char + columns[i] + static_cast<char>('0'+curr_row);
+                            }
+                            cout << chesspiece << " ";
                         }
                         else if(islower(read_char)){
                             curr_row = abs(u - 8);
                             read_char = toupper(read_char);
-                            cout << read_char << columns[i] << curr_row << endl; 
+                            //cout << read_char << columns[i] << curr_row << endl; 
                         }
                     }
                     // A row has 2 lines of chars.
