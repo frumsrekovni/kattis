@@ -2,8 +2,16 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
+bool chessPieceShort(string piece1, string piece2){
+    // Print order:
+    // K > Q > R > B > N > P
+    // If same type and white piece: smaller row > larger row
+    // If same type and black piece: larger row > smaller row
+    // If same type and same row smaller column > larger column
+}
 int main(){
     /*
     White player UPPERCASE. Black player lowercase.
@@ -15,54 +23,71 @@ int main(){
     char columns[] = {'a','b','c','d','e','f','g','h'};
     vector<string> wPieces;
     vector<string> bPieces;
+    int currentline = 1;
+    int currentRow = 8;
     while(myfile >>firstchar){
+        // if(currentline > 2){
+        //     currentline = 1;
+        //     currentRow--;
+        // }
+        // cout << currentRow;
+        // if(firstchar == '+'){
+        //     getline(myfile, in);
+        // }
+        // else if (firstchar == '|')
+        // {
+        //     getline(myfile, in);
+        // }
+        // currentline++;
+        if(currentline > 2){
+            currentline = 1;
+            currentRow--;
+        }
         if(firstchar == '+'){ // "+" indicates that the entire line is useless
             getline(myfile, in);
-            continue;
+            currentline++;
         }
-        else{
+        else if(firstchar == '|'){
             // If not "+" but in this case actually always the "|" char we have coming useful info
-            for (int u = 0; u < 8; u++)
+            for (int i = 0; i < 8; i++)
             {
-                // u value is the 1 in "Ke1". aka what row the piece is in
-                for (int i = 0; i < 8; i++)
+                // i value here represent the e in "Ke1". aka what column the piece is in
+                /* There are 8 squares */
+                for (int y = 0; y < 4; y++)
                 {
-                    // i value here represent the e in "Ke1". aka what column the piece is in
-                    /* There are 8 squares */
-                    for (int y = 0; y < 4; y++)
-                    {
-                        /* There are 4 chars per square */
-                        char read_char;
-                        int curr_row;
-                        myfile >> read_char;
-                        if(isupper(read_char)){
-                            curr_row = abs(u - 8);
-                            //cout << read_char << columns[i] << curr_row << endl;
-                            string chesspiece = "";
-                            if(read_char == 'P'){
-                                //chesspiece = chesspiece + columns[i] + static_cast<char>('0'+curr_row);
-                                chesspiece += columns[i];
-                                chesspiece += static_cast<char>('0'+curr_row);
-                            }
-                            else{
-                                chesspiece = chesspiece + read_char + columns[i] + static_cast<char>('0'+curr_row);
-                            }
-                            cout << chesspiece << " ";
+                    /* There are 4 chars per square */
+                    char read_char;
+                    int curr_row;
+                    int curr_col;
+                    string chesspiece = "";
+                    myfile >> read_char;
+                    if(isupper(read_char)){
+                        if(read_char == 'P'){
+                            // In here it's a pawn. Meaning dont add the readchar to the chesspiece output
+                            chesspiece = chesspiece + columns[i] + static_cast<char>('0'+currentRow);
                         }
-                        else if(islower(read_char)){
-                            curr_row = abs(u - 8);
-                            read_char = toupper(read_char);
-                            //cout << read_char << columns[i] << curr_row << endl; 
+                        else{
+                            chesspiece = chesspiece + read_char + columns[i] + static_cast<char>('0'+currentRow);
                         }
+                        wPieces.push_back(chesspiece);
                     }
-                    // A row has 2 lines of chars.
+                    else if(islower(read_char)){
+                        read_char = toupper(read_char);
+                    }
                 }
+                // A row has 2 lines of chars.
             }
+            currentline++;
         }
     }
     
-    
-    // cout << "White: \n" << "Black: ";
+    sort(wPieces.begin(),wPieces.end(),chessPieceShort);
+     cout << "White: ";
+     for (int i = 0; i < wPieces.size(); i++)
+     {
+         cout << wPieces.at(i) << ",";
+     }
+     
 
     return 0;
 }
