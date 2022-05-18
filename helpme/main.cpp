@@ -3,14 +3,33 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <map>
 using namespace std;
 
 bool chessPieceShort(string piece1, string piece2){
-    // Print order:
-    // K > Q > R > B > N > P
+    // Print order: K > Q > R > B > N > P
     // If same type and white piece: smaller row > larger row
     // If same type and black piece: larger row > smaller row
     // If same type and same row smaller column > larger column
+    // I cant directly compare lets say K to Q. Their char value doesnt line up with what should come first.
+    // Need to have a tangible hierarchy of chars. Lets assign each char a value.
+    map<char, int> char_hierarchy { {'K', 10}, {'Q', 9}, {'R', 5}, {'B', 3}, {'N', 2}}; // Bishop and knight actually has the same value
+    
+    //All pieces are represented with 3 chars, except for the pawns. Every non-pawn should be printed before.
+    if(piece1.size() > piece2.size()){
+        return true;
+    }
+    else if(piece1.size() < piece2.size()){
+        return false; 
+    }
+
+    if(piece1.size() == 2){
+        return piece1.at(1) < piece2.at(1);
+    }
+    
+    return char_hierarchy.at(piece1.at(0)) > char_hierarchy.at(piece2.at(0));
+    // cout << piece1.at(0);
+    return true;
 }
 int main(){
     /*
