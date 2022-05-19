@@ -6,7 +6,7 @@
 #include <map>
 using namespace std;
 
-bool chessPieceShort(string piece1, string piece2){
+bool chessPieceSort(string piece1, string piece2){
     // Print order: K > Q > R > B > N > P
     // If same type and white piece: smaller row > larger row
     // If same type and black piece: larger row > smaller row
@@ -91,7 +91,16 @@ int main(){
                         wPieces.push_back(chesspiece);
                     }
                     else if(islower(read_char)){
-                        read_char = toupper(read_char);
+                        cout << read_char << endl;
+                        //read_char = toupper(read_char);
+                        if(read_char == 'p'){
+                            // In here it's a pawn. Meaning dont add the readchar to the chesspiece output
+                            chesspiece = chesspiece + columns[i] + static_cast<char>('0'+currentRow);
+                        }
+                        else{
+                            chesspiece = chesspiece + read_char + columns[i] + static_cast<char>('0'+currentRow);
+                        }
+                        bPieces.push_back(chesspiece);                        
                     }
                 }
                 // A row has 2 lines of chars.
@@ -100,13 +109,17 @@ int main(){
         }
     }
     
-    sort(wPieces.begin(),wPieces.end(),chessPieceShort);
+    sort(wPieces.begin(),wPieces.end(), chessPieceSort);
      cout << "White: ";
      for (int i = 0; i < wPieces.size(); i++)
      {
          cout << wPieces.at(i) << ",";
      }
-     
-
+     sort(bPieces.begin(),bPieces.end(), chessPieceSort);
+     cout << "\nBlack: ";
+     for (int i = 0; i < bPieces.size(); i++)
+     {
+         cout << bPieces.at(i) << ",";
+     }
     return 0;
 }
