@@ -6,6 +6,13 @@
 #include <map>
 using namespace std;
 
+
+struct allPieceSort{
+    explicit allPieceSort(bool black): isBlack(black) {}
+    bool isBlack;
+};
+
+
 bool chessPieceSort(string piece1, string piece2){
     // Print order: K > Q > R > B > N > P
     // If same type and white piece: smaller row > larger row
@@ -26,7 +33,9 @@ bool chessPieceSort(string piece1, string piece2){
     if(piece1.size() == 2){
         return piece1.at(1) < piece2.at(1);
     }
-    
+    // cout << "piece1 first char: " << piece1.at(0) << endl;
+    // cout << "1: " << char_hierarchy.at(piece1.at(0)) <<endl;
+    // cout << "2: " <<  char_hierarchy.at(piece2.at(0))<<endl;
     return char_hierarchy.at(piece1.at(0)) > char_hierarchy.at(piece2.at(0));
     // cout << piece1.at(0);
     return true;
@@ -45,19 +54,6 @@ int main(){
     int currentline = 1;
     int currentRow = 8;
     while(myfile >>firstchar){
-        // if(currentline > 2){
-        //     currentline = 1;
-        //     currentRow--;
-        // }
-        // cout << currentRow;
-        // if(firstchar == '+'){
-        //     getline(myfile, in);
-        // }
-        // else if (firstchar == '|')
-        // {
-        //     getline(myfile, in);
-        // }
-        // currentline++;
         if(currentline > 2){
             currentline = 1;
             currentRow--;
@@ -91,9 +87,8 @@ int main(){
                         wPieces.push_back(chesspiece);
                     }
                     else if(islower(read_char)){
-                        cout << read_char << endl;
-                        //read_char = toupper(read_char);
-                        if(read_char == 'p'){
+                        read_char = toupper(read_char);
+                        if(read_char == 'P'){
                             // In here it's a pawn. Meaning dont add the readchar to the chesspiece output
                             chesspiece = chesspiece + columns[i] + static_cast<char>('0'+currentRow);
                         }
